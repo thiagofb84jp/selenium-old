@@ -9,16 +9,14 @@ import java.util.List;
 
 public class TesteCampoTreinamento {
 
-    String nome = "Teste de escrita";
-
     @Test
     public void testeTextField() {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
 
-        driver.findElement(By.id("elementosForm:nome")).sendKeys(nome);
-        Assert.assertEquals(nome, driver.findElement(By.id("elementosForm:nome")).getAttribute("value"));
+        driver.findElement(By.id("elementosForm:nome")).sendKeys("Teste de escrita");
+        Assert.assertEquals("Teste de escrita", driver.findElement(By.id("elementosForm:nome")).getAttribute("value"));
 
         driver.quit();
     }
@@ -29,8 +27,8 @@ public class TesteCampoTreinamento {
         driver.manage().window().maximize();
         driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
 
-        driver.findElement(By.id("elementosForm:sugestoes")).sendKeys(nome);
-        Assert.assertEquals(nome, driver.findElement(By.id("elementosForm:sugestoes")).getAttribute("value"));
+        driver.findElement(By.id("elementosForm:sugestoes")).sendKeys("Teste de escrita");
+        Assert.assertEquals("Teste de escrita", driver.findElement(By.id("elementosForm:sugestoes")).getAttribute("value"));
 
         driver.quit();
     }
@@ -119,13 +117,16 @@ public class TesteCampoTreinamento {
     }
 
     @Test
-    @Ignore
     public void deveInteragirComLinks() {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
 
+        Assert.assertEquals("Status: Nao cadastrado", driver.findElement(By.id("resultado")).getText());
+
         driver.findElement(By.linkText("Voltar")).click();
+
+        Assert.assertEquals("Voltou!", driver.findElement(By.id("resultado")).getText());
 
         driver.quit();
     }
@@ -136,8 +137,9 @@ public class TesteCampoTreinamento {
         driver.manage().window().maximize();
         driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
 
-        Assert.assertTrue(driver.findElement(By.tagName("body")).getText().contains("Campo de Treinamento"));
-
+//        Assert.assertTrue(driver.findElement(By.tagName("body")).getText().contains("Campo de Treinamento"));
+        Assert.assertEquals("Campo de Treinamento", driver.findElement(By.tagName("h3")).getText());
+        Assert.assertEquals("Cuidado onde clica, muitas armadilhas...", driver.findElement(By.className("facilAchar")).getText());
         driver.quit();
     }
 }
