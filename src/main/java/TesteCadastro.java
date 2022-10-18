@@ -26,23 +26,23 @@ public class TesteCadastro {
 
     @Test
     public void deveFazerCadastroComSucesso() {
-        dsl.escreve("elementosForm:nome", "José");
-        dsl.escreve("elementosForm:sobrenome", "da Silva Soares Santos");
+        dsl.escrever("elementosForm:nome", "José");
+        dsl.escrever("elementosForm:sobrenome", "da Silva Soares Santos");
         dsl.clicarRadio("elementosForm:sexo:0");
         dsl.clicarRadio("elementosForm:comidaFavorita:2");
 
         dsl.selecionarCombo("elementosForm:escolaridade", "Mestrado");
         dsl.selecionarCombo("elementosForm:esportes", "Corrida");
-        dsl.escreve("elementosForm:sugestoes", "Esta são as minhas informações favoritas.");
+        dsl.escrever("elementosForm:sugestoes", "Esta são as minhas informações favoritas.");
         dsl.clicarBotao("elementosForm:cadastrar");
 
-        Assert.assertEquals("Cadastrado!", dsl.obterTexto("//*[@id=\"resultado\"]/span"));
-        Assert.assertEquals("José", dsl.obterTexto("//*[@id=\"descNome\"]/span"));
-        Assert.assertEquals("da Silva Soares Santos", dsl.obterTexto("//*[@id=\"descSobrenome\"]/span"));
-        Assert.assertEquals("Masculino", dsl.obterTexto("//*[@id=\"descSexo\"]/span"));
-        Assert.assertEquals("Pizza", dsl.obterTexto("//*[@id=\"descComida\"]/span"));
-        Assert.assertEquals("mestrado", dsl.obterTexto("//*[@id=\"descEscolaridade\"]/span"));
-        Assert.assertEquals("Corrida", dsl.obterTexto("//*[@id=\"descEsportes\"]/span"));
+        Assert.assertEquals("Cadastrado!", dsl.obterTextoByXpath("//*[@id=\"resultado\"]/span"));
+        Assert.assertEquals("José", dsl.obterTextoByXpath("//*[@id=\"descNome\"]/span"));
+        Assert.assertEquals("da Silva Soares Santos", dsl.obterTextoByXpath("//*[@id=\"descSobrenome\"]/span"));
+        Assert.assertEquals("Masculino", dsl.obterTextoByXpath("//*[@id=\"descSexo\"]/span"));
+        Assert.assertEquals("Pizza", dsl.obterTextoByXpath("//*[@id=\"descComida\"]/span"));
+        Assert.assertEquals("mestrado", dsl.obterTextoByXpath("//*[@id=\"descEscolaridade\"]/span"));
+        Assert.assertEquals("Corrida", dsl.obterTextoByXpath("//*[@id=\"descEsportes\"]/span"));
     }
 
     @Test
@@ -50,53 +50,49 @@ public class TesteCadastro {
         dsl.clicarBotao("elementosForm:cadastrar");
 
         Alert alert = driver.switchTo().alert();
-        Assert.assertEquals("Nome eh obrigatorio", alert.getText());
+        Assert.assertEquals("Nome eh obrigatorio", dsl.alertaObterTextoEAceita());
     }
 
     @Test
     public void deveValidarSobrenomeObrigatorio() {
-        dsl.escreve("elementosForm:nome", "José");
+        dsl.escrever("elementosForm:nome", "José");
         dsl.clicarBotao("elementosForm:cadastrar");
 
-        Alert alert = driver.switchTo().alert();
-        Assert.assertEquals("Sobrenome eh obrigatorio", alert.getText());
+        Assert.assertEquals("Sobrenome eh obrigatorio", dsl.alertaObterTextoEAceita());
     }
 
     @Test
     public void deveValidarSexoObrigatorio() {
-        dsl.escreve("elementosForm:nome", "José");
-        dsl.escreve("elementosForm:sobrenome", "da Silva Soares Santos");
+        dsl.escrever("elementosForm:nome", "José");
+        dsl.escrever("elementosForm:sobrenome", "da Silva Soares Santos");
         dsl.clicarBotao("elementosForm:cadastrar");
 
-        Alert alert = driver.switchTo().alert();
-        Assert.assertEquals("Sexo eh obrigatorio", alert.getText());
+        Assert.assertEquals("Sexo eh obrigatorio", dsl.alertaObterTextoEAceita());
     }
 
     @Test
     public void deveValidarComidaVegetariana() {
-        dsl.escreve("elementosForm:nome", "José");
-        dsl.escreve("elementosForm:sobrenome", "da Silva Soares Santos");
+        dsl.escrever("elementosForm:nome", "José");
+        dsl.escrever("elementosForm:sobrenome", "da Silva Soares Santos");
         dsl.clicarRadio("elementosForm:sexo:0");
-        dsl.clicarCheckbox("elementosForm:comidaFavorita:0");
-        dsl.clicarCheckbox("elementosForm:comidaFavorita:3");
+        dsl.clicarCheck("elementosForm:comidaFavorita:0");
+        dsl.clicarCheck("elementosForm:comidaFavorita:3");
         dsl.clicarBotao("elementosForm:cadastrar");
 
-        Alert alert = driver.switchTo().alert();
-        Assert.assertEquals("Tem certeza que voce eh vegetariano?", alert.getText());
+        Assert.assertEquals("Tem certeza que voce eh vegetariano?", dsl.alertaObterTextoEAceita());
     }
 
     @Test
     public void deveValidarEsportistaIndeciso() {
-        dsl.escreve("elementosForm:nome", "José");
-        dsl.escreve("elementosForm:sobrenome", "da Silva Soares Santos");
+        dsl.escrever("elementosForm:nome", "José");
+        dsl.escrever("elementosForm:sobrenome", "da Silva Soares Santos");
         dsl.clicarRadio("elementosForm:sexo:0");
-        dsl.clicarCheckbox("elementosForm:comidaFavorita:0");
+        dsl.clicarCheck("elementosForm:comidaFavorita:0");
         dsl.selecionarCombo("elementosForm:esportes", "Karate");
         dsl.selecionarCombo("elementosForm:esportes", "O que eh esporte?");
         dsl.clicarBotao("elementosForm:cadastrar");
 
-        Alert alert = driver.switchTo().alert();
-        Assert.assertEquals("Voce faz esporte ou nao?", alert.getText());
+        Assert.assertEquals("Voce faz esporte ou nao?", dsl.alertaObterTextoEAceita());
     }
 
     @After
